@@ -27,3 +27,4 @@ dist-ssr
 storage.rules
 database.rules.json
 .firebaserc
+.firebase
