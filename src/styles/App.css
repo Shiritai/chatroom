@@ -28,8 +28,23 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(1) .logo {
+    animation: logo-spin infinite 10s ease;
+  }
   a:nth-of-type(2) .logo {
+    animation: logo-spin reverse infinite 10s ease;
+  }
+  a:nth-of-type(3) .logo {
+    animation: logo-spin alternate infinite 20s linear;
+  }
+  a:nth-of-type(4) .logo {
     animation: logo-spin infinite 20s linear;
+  }
+  a:nth-of-type(5) .logo {
+    animation: logo-spin infinite 10s ease;
+  }
+  a:nth-of-type(6) .logo {
+    animation: logo-spin reverse infinite 10s ease;
   }
 }
 
