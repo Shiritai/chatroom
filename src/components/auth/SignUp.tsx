@@ -10,14 +10,15 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { APP_NAME, PROJECT } from "../shared/Header";
-import { RoutePages } from "../../controller/router/RoutePages";
-import { EmailTextField, PasswordTextField } from "../chat/MyTextField";
+import { RoutePages } from "../../util/router/RoutePages";
+import { EmailTextField, PasswordTextField } from "./AuthTextField";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useAuth } from "../../db/firebase";
-import { useSignIn } from "./Auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignProps } from "../../types/PagePropTypes";
+import MyAlert, { MyAlertProps, MyDefaultAlerts } from "../shared/MyAlert";
+import { isValidPassword } from "../../util/function/TextChecker";
 
 function Copyright(props: any) {
   return (
@@ -41,8 +42,8 @@ const SignUp = (props?: SignProps) => {
   let data: FormData;
 
   const auth = useAuth();
-  const signIn = useSignIn();
   const [isPasswordNotSame, setIsPasswordNotSame] = useState(false);
+  const [myAlert, setMyAlert] = React.useState(MyDefaultAlerts.NO_ALERT)
   const nav = useNavigate()
 
   const handleSignUp = () => {
@@ -50,7 +51,20 @@ const SignUp = (props?: SignProps) => {
       let email = data.get("email");
       let password = data.get("password");
       let nickname = data.get("nickname");
-      if (!email || !password || isPasswordNotSame || !nickname) {
+      if (!email || !password || isPasswordNotSame || !nickname || !isValidPassword(password.toString())) {
+        let idol_template: MyAlertProps = {
+          title: "Error!",
+          body: `Failed to sign up: since there is invalid field`,
+          src: MyDefaultAlerts.IDOL_FAL_ALERT.src,
+          tag: "Try again!",
+          showing: MyDefaultAlerts.IDOL_FAL_ALERT.showing,
+          severity: 'warning',
+          onClose: () => {
+            idol_template.showing = false
+            nav(RoutePages.SIGN_UP.path)
+          },
+        }
+        setMyAlert(idol_template);
         return;
       } else {
         createUserWithEmailAndPassword(
@@ -60,17 +74,40 @@ const SignUp = (props?: SignProps) => {
         )
           .then((cred) => {
             let nn = nickname!.toString();
-            signIn.signIn(cred.user);
-            alert(`Sign up ${nn} successfully`);
-            updateProfile(cred.user, { displayName: nn });
-            if (props) {
-              props.swap()
-            } else {
-              nav(RoutePages.SIGN_IN.path)
+            let idol_template: MyAlertProps = {
+              title: "Success!",
+              body: `Sign up ${nn} successfully :)`,
+              src: MyDefaultAlerts.IDOL_SUC_ALERT.src,
+              tag: "Go sign in!",
+              showing: MyDefaultAlerts.IDOL_SUC_ALERT.showing,
+              onClose: () => {
+                idol_template.showing = false
+                updateProfile(cred.user, { displayName: nn });
+                if (props) {
+                  props.swap()
+                } else {
+                  nav(RoutePages.SIGN_IN.path)
+                }
+              },
             }
+            setMyAlert(idol_template);
+            // alert(`Sign up ${nn} successfully`);
           })
           .catch((err) => {
-            alert(`Failed to sign up: ${err.message}`);
+            let idol_template: MyAlertProps = {
+              title: "Error!",
+              body: `Failed to sign up: ${err.message}`,
+              src: MyDefaultAlerts.IDOL_FAL_ALERT.src,
+              tag: "Try again!",
+              showing: MyDefaultAlerts.IDOL_FAL_ALERT.showing,
+              severity: 'error',
+              onClose: () => {
+                idol_template.showing = false
+                nav(RoutePages.SIGN_UP.path)
+              },
+            }
+            setMyAlert(idol_template);
+            // alert(`Failed to sign up: ${err.message}`);
           });
       }
     }
@@ -85,7 +122,6 @@ const SignUp = (props?: SignProps) => {
       nickname: data.get("nickname"),
       CheckPassword: data.get("CheckPassword"),
     };
-    console.log(local);
     setIsPasswordNotSame(
       (!local.password && !local.CheckPassword) ||
         (local.password &&
@@ -116,6 +152,7 @@ const SignUp = (props?: SignProps) => {
 
   return (
     <Container component="main" maxWidth="xs">
+      <MyAlert {...myAlert} />
       <CssBaseline />
       <Box
         sx={{
@@ -175,6 +212,7 @@ const SignUp = (props?: SignProps) => {
             type="submit"
             fullWidth
             variant="contained"
+            color='warning'
             onClick={handleSignUp}
             sx={{ mt: 3, mb: 2 }}
           >

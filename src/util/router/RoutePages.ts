@@ -3,6 +3,7 @@ import SignUp from "../../components/auth/SignUp";
 import Home from "../../components/page/Home";
 import IndexPage from "../../components/page/Index";
 import Page404 from "../../components/page/Page404";
+// import Profile from "../../components/page/Profile";
 import SignPage from "../../components/page/Sign";
 
 /**
@@ -21,7 +22,8 @@ export class RoutePages {
   static readonly SIGN_UP = new RoutePages("Sign up", SignUp, "/signup");
 
   // ---[testing pages]---
-  static readonly HOME = new RoutePages("Mini drawer", Home, "/home");
+  static readonly HOME = new RoutePages("Home page", Home, "/home");
+  // static readonly PROFILE = new RoutePages("Profile", Profile, "/profile");
 
   private constructor(
     name: string,

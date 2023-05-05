@@ -1,13 +1,10 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 import { MyTextProp } from "../../types/PagePropTypes";
+import { isValidEmail } from "../../util/function/TextChecker";
 
 const EmailTextField = (props: MyTextProp = { focus: false }) => {
   const [error, setError] = useState(false);
-
-  function isValidEmail(email: string) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
 
   const email = React.createRef<HTMLInputElement>();
 

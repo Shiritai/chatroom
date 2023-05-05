@@ -1,6 +1,6 @@
 import '/src/styles/App.css'
-import ProtoHome from './ProtoHome'
+import ProtoIndex from './ProtoIndex'
 
-const IndexPage = ProtoHome()
+const IndexPage = ProtoIndex()
 
 export default IndexPage

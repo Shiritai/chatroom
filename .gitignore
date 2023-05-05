@@ -28,3 +28,4 @@ storage.rules
 database.rules.json
 .firebaserc
 .firebase
+serviceCredentials.json

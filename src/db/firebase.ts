@@ -1,8 +1,11 @@
+
+
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+
 
 export let firebaseApp: FirebaseApp = initializeApp({
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
@@ -20,7 +23,7 @@ let firestore: ReturnType<typeof getFirestore>;
 let storage: ReturnType<typeof getStorage>;
 
 export const useAuth = () => {
-  auth = getAuth(firebaseApp);
+  auth = getAuth();
   return auth;
 };
 

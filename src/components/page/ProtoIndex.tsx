@@ -2,12 +2,13 @@ import reactLogo from "/src/assets/react.svg";
 import viteLogo from "/src/assets/vite.svg";
 import "/src/styles/App.css";
 import styled from "@emotion/styled";
-import { APP_NAME, Header, PROJECT } from "../shared/Header";
+import { APP_NAME, PROJECT } from "../shared/Header";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { RoutePages } from "../../controller/router/RoutePages";
-import { Grid } from "@mui/material";
+import { RoutePages } from "../../util/router/RoutePages";
+import { Grid, Typography } from "@mui/material";
+import '@fontsource/roboto/500.css';
 
 function SignButtons() {
   return (
@@ -67,7 +68,7 @@ const Code = styled.p`
   font-weight: bold;
 `;
 
-function ProtoHome(title?: string) {
+function ProtoIndex(title?: string) {
   const tsLogo =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png";
   const yarnLogo =
@@ -95,13 +96,22 @@ function ProtoHome(title?: string) {
 
   return () => (
     <>
-      <Header />
-      {title ? <h1>{title}</h1> : <></>}
-      <h1>{`${APP_NAME} | ${PROJECT}`}</h1>
-      <h2>{`Powered by ${logoData.map((ele) => ele.name).join(" + ")}`}</h2>
+      {/* <Header /> */}
+      <Typography variant='h3'>
+        {title ? title : ''}
+      </Typography>
+      <Typography variant='h2'>
+        {`${APP_NAME} | ${PROJECT}`}
+      </Typography>
+      <Typography variant='h5'>
+        {`Powered by ${logoData.map((ele) => ele.name).join(" + ")}`}
+      </Typography>
+      <p className="read-the-docs">
+        Click on the logos to learn more about each framework
+      </p>
       <div>
-        {logoData.map((ele) => (
-          <a href={ele.link} target="_blank">
+        {logoData.map((ele, index) => (
+          <a href={ele.link} key={index} target="_blank">
             <img src={ele.img} className="logo" alt={`${ele.name} logo`} />
           </a>
         ))}
@@ -116,11 +126,8 @@ function ProtoHome(title?: string) {
           for more details
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the logos to learn more about each frameworks
-      </p>
     </>
   );
 }
 
-export default ProtoHome;
+export default ProtoIndex;

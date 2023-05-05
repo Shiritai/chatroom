@@ -10,7 +10,7 @@ import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import SignIn from '../auth/SignIn';
 import SignUp from '../auth/SignUp';
-import { RoutePages } from '../../controller/router/RoutePages';
+import { RoutePages } from '../../util/router/RoutePages';
 import { SignProps } from '../../types/PagePropTypes';
 
 interface TabPanelProps {
@@ -46,15 +46,16 @@ function indexProps(index: any) {
 
 export default function SignPage() {
   const theme = useTheme();
-  const [value, setValue] = useState(0);
-  let [height, setHeight] = useState(window.innerHeight * 0.8)
+  const [ind, setInd] = useState(0);
+  // enable RWD in height dimension
+  const [height, setHeight] = useState(window.innerHeight * 0.8)
 
   const handleRWD = () => {
     setHeight(window.innerHeight)
   }
 
   const swap = () => {
-    setValue(old => (old + 1) % 2)
+    setInd(old => (old + 1) % 2)
   }
 
   let signProp: SignProps = { swap: swap }
@@ -65,7 +66,7 @@ export default function SignPage() {
   })
 
   const handleChange = (_: unknown, newValue: number) => {
-    setValue(newValue);
+    setInd(newValue);
   }
 
   return (
@@ -77,10 +78,10 @@ export default function SignPage() {
         <Grid item xs={12} sm={12} md={12}>
           <AppBar position="static" color="default">
             <Tabs
-              value={value}
+              value={ind}
               onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
+              indicatorColor='secondary'
+              textColor='secondary'
               variant="fullWidth"
               aria-label="action tabs example"
             >
@@ -90,12 +91,12 @@ export default function SignPage() {
           </AppBar>
           <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={value}
+            index={ind}
           >
-            <TabPanel value={value} index={0} dir={theme.direction}>
+            <TabPanel value={ind} index={0} dir={theme.direction}>
               <SignIn {...signProp}/>
             </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
+            <TabPanel value={ind} index={1} dir={theme.direction}>
               <SignUp {...signProp}/>
             </TabPanel>
           </SwipeableViews>

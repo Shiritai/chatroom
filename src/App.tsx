@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { Routes, Route } from "react-router-dom";
-import { PageStream, RoutePages } from "./controller/router/RoutePages";
+import { PageStream, RoutePages } from "./util/router/RoutePages";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 const darkTheme = createTheme({
@@ -14,8 +14,8 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="App">
         <Routes>
-          {PageStream.map((ele) => (
-            <Route path={ele.path} element={ele.component()} />
+          {PageStream.map((ele, index) => (
+            <Route key={index} path={ele.path} element={ele.component()} />
           ))}
           
           <Route path="*" element={RoutePages.PAGE_404.component()} />
