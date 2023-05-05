@@ -29,7 +29,7 @@ export const MessageItem = (props: MessageItemProps) => {
   let ret: React.ReactNode
   let userType = roomUsers.get(msg_ele.msg.uid) ?? genDefaultUserType()
   switch (msg_ele.msg.type) {
-  case ContentType.NORMAL:
+  case ContentType.NORMAL: case ContentType.EDITED:
     ret = (
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
@@ -46,7 +46,9 @@ export const MessageItem = (props: MessageItemProps) => {
                 },
                 fontWeight: "bold",
               }}
-              secondary={`${userType.email} at ${(new Date(msg_ele.msg.time)).toLocaleString()}`}
+              secondary={`${userType.email} at ${
+                (new Date(msg_ele.msg.time)).toLocaleString()
+                } ${msg_ele.msg.type === ContentType.EDITED ? '[EDITED]' : ''}`}
             />
           </Stack>
           {/* <ListItemText primary={msg_ele.msg.msg} /> */}

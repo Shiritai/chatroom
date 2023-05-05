@@ -16,6 +16,7 @@ export type SrcUrl = string;
 export enum ContentType {
   NORMAL,
   DELETED,
+  EDITED,
   CODE,
   SPOILER,
 }

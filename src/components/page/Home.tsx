@@ -467,9 +467,10 @@ export default function Home() {
         if (newValue) { // enable input
           // prepare for name editing
           ele.cache_input = ele.msg.msg;
-        } else if (commit || ele.cache_input.trim().length != 0) {
+        } else if (commit || (ele.cache_input.trim().length != 0 && ele.cache_input.trim() !== ele.msg.msg)) {
           // commit edition
           ele.msg.msg = ele.cache_input;
+          ele.msg.type = ContentType.EDITED;
           UpdateOneMessages([...messages], index)
         }
       }
