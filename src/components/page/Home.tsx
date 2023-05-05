@@ -115,19 +115,15 @@ export default function Home() {
   const nav = useNavigate()
   const signOut = useSignOut();
 
-  // let cacheUserType = genDefaultUserType()
   const [userType, setUserType] = React.useState(genDefaultUserType())
-  // const defaultUser = genDefaultUserType()
-  // const [userTypeData, setUserTypeData] = React.useState({ name: defaultUser.name, profile: defaultUser.profile })
-  // const [userTypeRooms, setUserTypeRooms] = React.useState(defaultUser.rooms)
   const [roomList, setRoomList] = React.useState(new Array<RoomElement>());
   const [messages, setMessages] = React.useState(new Array<MessageElement>());
 
   const [curRoom, setCurRoom] = React.useState(-1);
   const [showRoomList, setShowRoomList] = React.useState(false);
   const [showSetting, setShowSetting] = React.useState(false);
-  const [myAlert, setMyAlert] = React.useState(MyDefaultAlerts.NO_ALERT)
   // const [showProfile, setShowProfile] = React.useState(false)
+  const [myAlert, setMyAlert] = React.useState(MyDefaultAlerts.NO_ALERT)
   const [roomUsers, setRoomUsers] = React.useState(new Map<UserID, UserType>())
 
   let userTypeUnsubscribe: Unsubscribe | undefined;
@@ -273,6 +269,8 @@ export default function Home() {
       copyRooms[curRoom].room.members.push(uid)
       update(copyRooms[curRoom].ref, copyRooms[curRoom].room);
       setRoomList(copyRooms)
+      // update current room map
+      setRoomUsers(roomUsers.set(uid, newAccount))
     } else {
       console.log("The user is currently in this room...")
     }
@@ -379,6 +377,7 @@ export default function Home() {
       copyRoomList[i].selected = false;
     copyRoomList[index].selected = true;
     setRoomList([...copyRoomList]);
+    // update user map of current room
     let res = new Map<UserID, UserType>()
     for (let m of roomList[index].room.members) {
       let _userType: UserType = (await get(user_ref_use_email(m))).val()
