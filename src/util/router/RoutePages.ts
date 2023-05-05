@@ -39,6 +39,6 @@ export class RoutePages {
 /**
  * Streamer to stream reachable pages
  */
-export const PageStream: RoutePages[] = (() =>
-  Object.entries(RoutePages).map(([_, v]) => v))();
+export const PageStream: () => RoutePages[] = (() =>
+  Object.entries(RoutePages).map(([_, v]) => v));
 // implement using lambda since we may use more than once

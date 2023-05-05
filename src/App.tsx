@@ -14,7 +14,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="App">
         <Routes>
-          {PageStream.map((ele, index) => (
+          {PageStream().map((ele, index) => (
             <Route key={index} path={ele.path} element={ele.component()} />
           ))}
           
